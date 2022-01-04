@@ -4,7 +4,8 @@
   "description": "Eco Chess Assignment",
   "main": "index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "node test.js",
+    "start": "node index.js"
   },
   "keywords": [
     "eco",
@@ -16,6 +17,7 @@
     "cheerio": "^1.0.0-rc.10",
     "express": "^4.17.2",
     "node-cache": "^5.1.2",
+    "path": "^0.12.7",
     "pug": "^3.0.2",
     "request": "^2.88.2"
   }

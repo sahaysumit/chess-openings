@@ -3,11 +3,13 @@ const request = require('request');
 const cheerio = require('cheerio');
 const express = require('express');
 const app = express();
-const port = 3000;
+const port =  process.env.PORT || 3000;
 const NodeCache = require( "node-cache" );
 const cache = new NodeCache();
+const path = require('path')
 
 app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'))
 
 if(!cache.has("jsonScrapeData")){
     scrapeData();
