@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    title= title
+  body
+    if jsonScrapeData
+      font(face="verdana,arial,helvetica" size="+1") 
+        b ECO Chess Opening Codes:
+      p
+        table(border="0" cellpadding="2" cellspacing="0")
+          tbody 
+            -var n = 1;
+            each key, index in jsonScrapeData  
+              -n++
+              if(n % 2)
+                -var bgColor="#FFFFFF"
+              else 
+                -var bgColor="FFEECC";
+              tr(bgColor=bgColor)
+                td(valign="TOP")
+                  font(face="arial,helvetica")
+                    a(href=index)= index
+                td 
+                  font(face="arial,helvetica")
+                    b= key.name
+                    br
+                    font(size="-1")= key.moves
+    else 
+      h4= title 
+      h4= moves
