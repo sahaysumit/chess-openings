@@ -11,25 +11,38 @@ const path = require('path')
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
 
-if(!cache.has("jsonScrapeData")){
-    scrapeData();
-}
-
 app.get('/', (req, res) => {
-    res.render('index', {title: "ECO Chess Opening Codes:", jsonScrapeData: cache.get("jsonScrapeData")});
+    if(!cache.has("jsonScrapeData")){
+        scrapeData();
+    }
+    else{
+        res.render('index', {title: "ECO Chess Opening Codes:", jsonScrapeData: cache.get("jsonScrapeData")});
+    }
+    
 });
 
 app.get('/:key', (req, res) => {
-    const jsonData = cache.get("jsonScrapeData")[req.params.key];
-    res.render('index', {title: jsonData.name, moves: jsonData.moves});
+    if(!cache.has("jsonScrapeData")){
+        scrapeData();
+    }
+    else{
+        const jsonData = cache.get("jsonScrapeData")[req.params.key];
+        res.render('index', {title: jsonData.name, moves: jsonData.moves});
+    }
+    
 });
 
 app.get('/:key/*', (req, res) => {
-    const key = cache.get("jsonScrapeData")[req.params.key];
-    const playedMoves = req.params;
-    const keyMoves = key.moves.replace(",", "").split(" ").filter(x => isNaN(x)).join("/");
-    let computerMove = keyMoves.replace(playedMoves[0], "").split("/")[1];
-    res.render('index', {title : "Computer plays", moves: computerMove});
+    if(!cache.has("jsonScrapeData")){
+        scrapeData();
+    }
+    else{
+        const key = cache.get("jsonScrapeData")[req.params.key];
+        const playedMoves = req.params;
+        const keyMoves = key.moves.replace(",", "").split(" ").filter(x => isNaN(x)).join("/");
+        let computerMove = keyMoves.replace(playedMoves[0], "").split("/")[1];
+        res.render('index', {title : "Computer plays", moves: computerMove});
+    }  
 })
 
 
