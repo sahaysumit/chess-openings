@@ -50,7 +50,6 @@ app.get('/:key/*', (req, res) => {
             && (keyMoves.substring(computerMove.length, computerMove.length+1) ==="/")
             ){
             computerMove = keyMoves.replace(playedMoves[0], "").split("/");
-            console.log(computerMove, computerMove[0], computerMove[0]);
             computerMove = computerMove[0] ? computerMove[0] : computerMove[1];
             res.render('index', {title : "Computer plays", moves: computerMove});
         }
