@@ -6,7 +6,8 @@ const app = express();
 const port =  process.env.PORT || 3000;
 const NodeCache = require( "node-cache" );
 const cache = new NodeCache();
-const path = require('path')
+const path = require('path');
+const e = require('express');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'))
@@ -40,8 +41,22 @@ app.get('/:key/*', (req, res) => {
         const key = cache.get("jsonScrapeData")[req.params.key];
         const playedMoves = req.params;
         const keyMoves = key.moves.replace(",", "").split(" ").filter(x => isNaN(x)).join("/");
-        let computerMove = keyMoves.replace(playedMoves[0], "").split("/")[1];
-        res.render('index', {title : "Computer plays", moves: computerMove});
+        
+        let computerMove = playedMoves[0];
+        if(computerMove[computerMove.length-1]==="/"){
+            computerMove = computerMove.substring(0, computerMove.length-2);
+        }
+        if(computerMove === keyMoves.substring(0, computerMove.length)
+            && (keyMoves.substring(computerMove.length, computerMove.length+1) ==="/")
+            ){
+            computerMove = keyMoves.replace(playedMoves[0], "").split("/");
+            console.log(computerMove, computerMove[0], computerMove[0]);
+            computerMove = computerMove[0] ? computerMove[0] : computerMove[1];
+            res.render('index', {title : "Computer plays", moves: computerMove});
+        }
+        else{
+            res.render('index', {title : "Computer plays", moves: "Invalid Move"});
+        }
     }  
 })
 
