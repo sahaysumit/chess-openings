@@ -43,9 +43,11 @@ app.get('/:key/*', (req, res) => {
         const keyMoves = key.moves.replace(",", "").split(" ").filter(x => isNaN(x)).join("/");
         
         let computerMove = playedMoves[0];
+        console.log(computerMove);
         if(computerMove[computerMove.length-1]==="/"){
-            computerMove = computerMove.substring(0, computerMove.length-2);
+            computerMove = computerMove.substring(0, computerMove.length-1);
         }
+        console.log(computerMove);
         if(computerMove === keyMoves.substring(0, computerMove.length)
             && (keyMoves.substring(computerMove.length, computerMove.length+1) ==="/")
             ){
